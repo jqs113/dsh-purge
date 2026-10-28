@@ -10,6 +10,10 @@ function printStatus(state) {
   out.push("dsh-purge 状态 / Status");
   out.push("  宿主 / surface " + (state.surface || "web"));
   out.push("  DSH_HOME      " + state.dsh_home);
+  if (state.host_release) {
+    const ok = state.host_supported === true ? "✔" : state.host_supported === false ? "✘" : "?";
+    out.push(`  宿主版本       ${ok} ${state.host_release.version} (目标 / tested ${core.HOST_SUPPORT.tested})`);
+  }
   if (state.desktop_install) out.push("  桌面安装       " + state.desktop_install);
   if (state.ai_base) {
     out.push("  插件根 / root  " + state.ai_base);

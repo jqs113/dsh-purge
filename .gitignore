@@ -33,3 +33,6 @@ default-prompt-inject.md
 *.asar
 *.asar.bak
 *.bak
+
+# 换宿主版本时 tools/ 跑出来的兼容性报告
+tools/out/

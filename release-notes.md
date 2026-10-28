@@ -1,3 +1,23 @@
+# 1.1.82
+
+## 中文
+
+- 版本 **1.1.82**（本 fork 的第一个版本）。**适配 DSH 0.2.1-rc.3**；0.2.1-rc.2 与 0.2.0 仍可用。
+- **#32 / #53**：Web 面身份句和「不要另开服务器」早在 rc.2 就搬进了 `@deepseek-ai/dsh-harness-dev-context`，旧 pattern 一直不命中、补丁常年 skipped。现在两个补丁同时清洗 `harness-dev-context`（`WEB_SURFACE_PROMPT`、`LEGACY_WEB_SURFACE.prefix`、`HARNESS_SOURCE_PROMPT`、`LEGACY_SOURCE.prefix`）和 `dsh-web-app/lib` 里现行措辞的 `Advertised URL of the … Web GUI`。
+- **#77**：会话客户端把 `this.revised.clear();` 收成了 `if (this.revised.size > 0) this.revised.clear();`，旧锚点不命中。新增一条同义锚点，老主机上的旧锚点保留。
+- 新增 `core.hostRelease()` / `core.hostSupported()`：状态页显示探测到的宿主版本和「目标 0.2.1-rc.3」，线外（非 0.2.x）会标出来。
+- 新增 `test/host-anchors.test.js`：把 rc.3 的原文锚点钉进单测（`npm test` 29 条）。宿主下次改措辞先红，而不是补丁静默 skipped。
+- 实测（rc.3 包树）：首次应用 60 applied / 0 pattern_not_found / 0 failed，二次应用 0 applied / 66 already；39 个被打过的 `.js` 全部 `node --check` 通过。
+
+## English
+
+- **1.1.82**, the first release of this fork. **Targets DSH 0.2.1-rc.3**; 0.2.1-rc.2 and 0.2.0 still work.
+- **#32 / #53**: the Web-surface identity sentence and "do not start a replacement server" moved into `@deepseek-ai/dsh-harness-dev-context` back in rc.2, so the old patterns never matched and both patches skipped forever. They now clean `harness-dev-context` (`WEB_SURFACE_PROMPT`, `LEGACY_WEB_SURFACE.prefix`, `HARNESS_SOURCE_PROMPT`, `LEGACY_SOURCE.prefix`) plus the current `Advertised URL of the … Web GUI` wording in `dsh-web-app/lib`.
+- **#77**: the Conversation client turned `this.revised.clear();` into `if (this.revised.size > 0) this.revised.clear();`, so the old anchor stopped matching. Added an equivalent anchor and kept the old one for older hosts.
+- New `core.hostRelease()` / `core.hostSupported()`: the status page reports the detected host version against the **0.2.1-rc.3** target and flags anything outside the `0.2.x` line.
+- New `test/host-anchors.test.js` pins the rc.3 anchors (`npm test` is 29/29). The next host wording change fails a test instead of silently skipping a patch.
+- Measured on the rc.3 package tree: first Apply 60 applied / 0 `pattern_not_found` / 0 failed; second Apply 0 applied / 66 `already`; all 39 patched `.js` files pass `node --check`.
+
 # 1.1.81
 
 ## 中文

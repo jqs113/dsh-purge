@@ -8,6 +8,8 @@
 - 新增 `core.hostRelease()` / `core.hostSupported()`：状态页显示探测到的宿主版本和「目标 0.2.1-rc.3」，线外（非 0.2.x）会标出来。
 - 新增 `test/host-anchors.test.js`：把 rc.3 的原文锚点钉进单测（`npm test` 29 条）。宿主下次改措辞先红，而不是补丁静默 skipped。
 - 实测（rc.3 包树）：首次应用 60 applied / 0 pattern_not_found / 0 failed，二次应用 0 applied / 66 already；39 个被打过的 `.js` 全部 `node --check` 通过。
+- **`purge_apply` 工具修好了密封桌面端**：工具路径原来只调 `applyPatchesAllHosts`，不做 `resolveOfficialAiBase`，于是官方桌面端密封 `app.asar` 时会把补丁打进枚举到的**另一份安装**（本机是 npm 全局的 0.1.5），桌面端一个字节不动。现在工具和 `/purge apply` 命令一样先解包再按 `resources/app` 清洗。
+- 顺带记录：这台机器上宿主里 `spawn(powershell, {detached:true})` 起不来（.ps1 写出来了、进程没起来），换包那步改用计划任务脱离进程树才成。`tools/desktop-swap-now.mjs` 就是这条备用路径。
 
 ## English
 
@@ -17,6 +19,8 @@
 - New `core.hostRelease()` / `core.hostSupported()`: the status page reports the detected host version against the **0.2.1-rc.3** target and flags anything outside the `0.2.x` line.
 - New `test/host-anchors.test.js` pins the rc.3 anchors (`npm test` is 29/29). The next host wording change fails a test instead of silently skipping a patch.
 - Measured on the rc.3 package tree: first Apply 60 applied / 0 `pattern_not_found` / 0 failed; second Apply 0 applied / 66 `already`; all 39 patched `.js` files pass `node --check`.
+- **`purge_apply` now works on a sealed desktop**: the tool path only called `applyPatchesAllHosts` without `resolveOfficialAiBase`, so on an official desktop whose `app.asar` is sealed it wrote the patches into whatever other install it enumerated (here: the npm-global 0.1.5 tree) and left the desktop untouched. It now opens the sealed host first, exactly like the `/purge apply` command.
+- Filed along the way: on this machine `spawn(powershell, {detached:true})` from inside the host never actually started (the `.ps1` was written, no process). The asar swap had to go through a scheduled task to leave the host's process tree; `tools/desktop-swap-now.mjs` is that fallback.
 
 # 1.1.81
 

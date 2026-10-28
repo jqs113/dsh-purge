@@ -6,8 +6,10 @@
 |---|---|
 | `patch-compat-report.mjs` | 只读：把 `lib/core.js` 里每条补丁的锚点拿到宿主原文上试一遍，报 `ANCHOR_OK` / `MARKER_ONLY` / `ANCHOR_LOST` / `NO_TARGET_FILE`。换宿主版本先跑这个。 |
 | `apply-scratch.mjs` | 把补丁真的打到一棵**拷贝**出来的宿主树上，输出 applied / skipped / `pattern_not_found` 统计。 |
+| `desktop-open-and-apply.mjs` | 密封桌面端专用：解开 `app.asar` → `resources/app` 并按补丁表清洗（走 `reapplyInstalled`）。 |
+| `desktop-swap-now.mjs` | 换包收尾：延迟若干秒后「杀本安装进程 → `app.asar` 改名 `.bak` → 重新拉起」。走**计划任务**，因为宿主里 `spawn(powershell)` 有起不来的机器。 |
 
-两者都只接受显式路径，不写真实安装。
+前两个只接受显式路径，不写真实安装；后两个是桌面端真实操作，会用**绝对路径写死本机安装位置**，别在别的机器上直接跑。
 
 ## 换宿主版本时的用法
 
